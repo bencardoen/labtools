@@ -10,7 +10,7 @@ REMOTEUSER=$USER
 REMOTEDIR='/local-scratch/bcardoen'
 #Change to a different mount point
 MOUNTPOINT="/home/bcardoen/mountmial11"
-OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=300 -o kernel_cache"
+OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=10 -o kernel_cache"
 # If you need to jump
 # OPTIONS='-C -o ssh_command='''ssh -J <you>@<intermediate>''
 
