@@ -1,6 +1,7 @@
 #!/bin/bash
 #@author Ben Cardoen, Ghassan Hamarneh
-#Remote mounts Cedar home drive
+
+set -euo pipefail
 
 # Uncomment if you need to jump between systems
 #JUMP="-o ssh_command='ssh -J <you>@<intermediate_host>'"
