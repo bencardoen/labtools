@@ -1,16 +1,15 @@
 #!/bin/bash
-#@author Ben Cardoen, Ghassan Hamarneh
+#@author Ben Cardoen
 #Remote mounts Cedar home drive
 
 # Uncomment if you need to jump between systems
 #JUMP="-o ssh_command='ssh -J <you>@<intermediate_host>'"
-REMOTE="cs-mial-37.cs.sfu.ca"
+REMOTE="solar.cs.sfu.ca"
 #Change if your user id is different
 REMOTEUSER=$USER
-REMOTEDIR='/local-scratch2/bcardoen'
 #Change to a different mount point
-MOUNTPOINT="/home/bcardoen/mountmial37"
-OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=15 -o kernel_cache"
+MOUNTPOINT="/home/bcardoen/solar"
+OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=300 -o kernel_cache"
 # If you need to jump
 # OPTIONS='-C -o ssh_command='''ssh -J <you>@<intermediate>''
 
@@ -20,7 +19,7 @@ UMOUNTCMD="fusermount3 -u $MOUNTPOINT"
 #UMOUNTCMD="umount $MOUNTPOINT"
 
 echo "Mounting remote file systems @ $REMOTE to $MOUNTPOINT ... with options $OPTIONS"
-sshfs $REMOTE:$REMOTEDIR $MOUNTPOINT $OPTIONS
+sshfs $REMOTE:/home/$REMOTEUSER $MOUNTPOINT $OPTIONS
 if [ $? -eq 0 ]; then
 	echo "Mount succesfull"
 else
@@ -29,7 +28,7 @@ else
 	$UMOUNTCMD
 	if [ $? -eq 0 ]; then
 		echo "Force unmount successful, trying to mount again ..."
-		sshfs $REMOTE:$REMOTEDIR $MOUNTPOINT $OPTIONS
+		sshfs $REMOTE:/home/$REMOTEUSER $MOUNTPOINT $OPTIONS
 		if [ $? -eq 0 ]; then
 			echo "... Mount successful"
 		else

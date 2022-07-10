@@ -1,5 +1,5 @@
 #!/bin/bash
-#@author Ben Cardoen, Ghassan Hamarneh
+#@author Ben Cardoen
 #Remote mounts Cedar home drive
 
 # Uncomment if you need to jump between systems
