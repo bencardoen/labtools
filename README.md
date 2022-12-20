@@ -66,3 +66,17 @@ To unmount, do:
 - The options are tweaked for my usage, but for collaborative editing you may want to change the cache timing.
 - This reconnects, so even on a laptop when it hibernates and you go to a new wifi access point, it will reconnect.
 - This can work on Mac/Cygwin, but I have neither, so if it breaks, make a PR/issue.
+
+#### Multiple machines
+Nothing stops you from having multipe views:
+```bash
+./remotemount.sh remote.server.com:/home/me /home/me/mount1
+./remotemount.sh remote.server.com:/home/me /home/me/mount2
+```
+Or multiple machines connected to your machine:
+```bash
+./remotemount.sh remote.server1.com:/home/me /home/me/mount1
+./remotemount.sh remote.server2.com:/home/me /home/me/mount2
+```
+You cannot, however, share the same mount point.
+For N-N syncing, you'd need Globus/Rsync and or dropbox/onedrive syncing protocols.
