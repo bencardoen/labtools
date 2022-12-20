@@ -38,7 +38,7 @@ NCPU=`cat /proc/cpuinfo | grep processor | wc -l `
 echo $NCPU
 ```
 ### remotemount.sh
-Suppose you have access (with SSH) to a cluster, and you want to browse selected files from a large dataset, edit a few files, etc. 
+Suppose you have access (with SSH) to a cluster, and you want to browse selected files from a large dataset, edit a few files, etc.
 In this case sync/copy tools are overkill, you can instead mount the remote files so they appear to your local machine as if they are a local folder:
 ```
 [you] -- SSHFS -- [remotesystem/path/to/files]
@@ -47,15 +47,22 @@ In this case sync/copy tools are overkill, you can instead mount the remote file
 This requires
 - SSH (key based) access, please see documentation for your remote system
 - SSHFS
-On Red Hat based systems, you can install sshfs by 
+On Red Hat based systems, you can install sshfs by
 ```bash
 sudo dnf install fuse-sshfs
 ```
 #### Usage
-First, edit the script at lines 22 and 24 to change the mountpoint and remote, then
+A mountpoint should be an empty directory, once mounted, that directory will show remote data.
+For example, say your mountpoint is `/home/me/mount`, and your remote machine is `remote.server.com:/home/me`.
 ```bash
-./remotemount.sh
+./remotemount.sh remote.server.com:/home/me /home/me/mount
 ```
-And that's it, your remote folder will now act as a local folder, you can browse, edit etc. 
-Note, the options are tweaked for my usage, but for collaborative editing you may want to change the cache timing. 
-Second, this reconnects, so even on a laptop when it hibernates and you go to a new wifi access point, it will reconnect.
+And that's it, your remote folder will now act as a local folder, you can browse, edit etc.
+To unmount, do:
+```bash
+./remotemount.sh /home/me/mount
+```
+##### Notes
+- The options are tweaked for my usage, but for collaborative editing you may want to change the cache timing.
+- This reconnects, so even on a laptop when it hibernates and you go to a new wifi access point, it will reconnect.
+- This can work on Mac/Cygwin, but I have neither, so if it breaks, make a PR/issue.
