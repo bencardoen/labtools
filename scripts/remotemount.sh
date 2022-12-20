@@ -14,14 +14,22 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
+case $# in
+        3)
+        REMOTE=$1
+				REMOTEUSER=$2
+				MOUNTPOINT=$3
+        ;;
+        *)
+        >&2 echo "Expected usage : $0 REMOTE USER MOUNTPOINT  , e.g. $0 server.com:/home me /mnt/remote";;
+esac
 # Uncomment if you need to jump between systems
 #JUMP="-o ssh_command='ssh -J <you>@<intermediate_host>'"
-REMOTE="cedar.computecanada.ca"
+# REMOTE="cedar.computecanada.ca"
 #Change if your user id is different
-REMOTEUSER=$USER
+# REMOTEUSER=$USER
 #Change to a different mount point
-MOUNTPOINT="/home/bcardoen/mountcedar"
+# MOUNTPOINT="/home/bcardoen/mountcedar"
 OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=300 -o kernel_cache"
 # If you need to jump
 # OPTIONS='-C -o ssh_command='''ssh -J <you>@<intermediate>''
