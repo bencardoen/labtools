@@ -25,15 +25,16 @@ case $# in
 			echo "Unmounting $1"
 			UNMOUNT=true
 			;;
-        2)
-        		REMOTE=$1
+  2)
+			REMOTE=$1
 			MOUNTPOINT=$2
-        		;;
-	3)		
+  		;;
+	3)
 			REMOTE=$1
 			MOUNTPOINT=$2
 			CACHE=$3
-        *)
+			;;
+  *)
         >&2 echo "Expected usage : $0 REMOTE MOUNTPOINT  [CACHETIMEOUT=300] , e.g. $0 server.com:/home/me /mnt/remote, or $0 server.com:/home/me /mnt/remote 0,  or $0 /mnt/remote to unmount. Cachetimeout in seconds."
 	;;
 esac
@@ -49,9 +50,9 @@ case "${unameOut}" in
 			machine=Cygwin;;
     MINGW*)
 			machine=MinGw;;
-    *)          machine="UNKNOWN:${unameOut}"
+    *)
+			echo "Unsupported ENV ${unameOut}" && exit -1;
 esac
-echo "You're running on ${machine}"
 
 # UMOUNTCMD="fusermount3 -u $MOUNTPOINT"
 
@@ -69,9 +70,9 @@ if [[ ! -d "$MOUNTPOINT" ]]
 then
     echo "$MOUNTPOINT does exist on your filesystem, creating"
     mkdir -p $MOUNTPOINT
-    if [ $? -eq 0 ]; then
+    if [ $? -ne 0 ]; then
     	echo "Failed creating $MOUNTPOINT, giving up"
-	exit -1
+			exit -1
     fi
     echo "Succesfully created $MOUNTPOINT"
 fi
