@@ -14,6 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+## For OS detection part
 ## Source: https://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux
 
 UNMOUNT=false
@@ -55,21 +56,20 @@ then
 	echo "...done"
 	exit $?
 fi
-# Uncomment if you need to jump between systems
-#JUMP="-o ssh_command='ssh -J <you>@<intermediate_host>'"
-# REMOTE="cedar.computecanada.ca"
-#Change if your user id is different
-# REMOTEUSER=$USER
-#Change to a different mount point
-# MOUNTPOINT="/home/bcardoen/mountcedar"
-OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=300 -o kernel_cache"
-# If you need to jump
-# OPTIONS='-C -o ssh_command='''ssh -J <you>@<intermediate>''
 
-# Unmount Linux
-# UMOUNTCMD="fusermount3 -u $MOUNTPOINT"
-#Unmount OSX
-#UMOUNTCMD="umount $MOUNTPOINT"
+OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=300 -o kernel_cache"
+
+if [[ ! -d "$MOUNTPOINT" ]]
+then
+    echo "$MOUNTPOINT does exist on your filesystem, creating"
+    mkdir -p $MOUNTPOINT
+    if [ $? -eq 0 ]; then
+    	echo "Failed creating $MOUNTPOINT, giving up"
+	exit -1
+    fi
+    echo "Succesfully created $MOUNTPOINT"
+fi
+
 
 echo "Mounting remote file systems @ $REMOTE to $MOUNTPOINT ... with options $OPTIONS"
 sshfs $REMOTE $MOUNTPOINT $OPTIONS
