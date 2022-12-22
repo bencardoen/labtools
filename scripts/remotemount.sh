@@ -18,18 +18,24 @@
 ## Source: https://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux
 
 UNMOUNT=false
+CACHE=300
 case $# in
-				1)
-				MOUNTPOINT=$1
-				echo "Unmounting $1"
-				UNMOUNT=true
-				;;
+	1)
+			MOUNTPOINT=$1
+			echo "Unmounting $1"
+			UNMOUNT=true
+			;;
         2)
         		REMOTE=$1
-				MOUNTPOINT=$2
+			MOUNTPOINT=$2
         		;;
+	3)		
+			REMOTE=$1
+			MOUNTPOINT=$2
+			CACHE=$3
         *)
-        >&2 echo "Expected usage : $0 REMOTE MOUNTPOINT  , e.g. $0 server.com:/home/me /mnt/remote";;
+        >&2 echo "Expected usage : $0 REMOTE MOUNTPOINT  [CACHETIMEOUT=300] , e.g. $0 server.com:/home/me /mnt/remote, or $0 server.com:/home/me /mnt/remote 0,  or $0 /mnt/remote to unmount. Cachetimeout in seconds."
+	;;
 esac
 unameOut="$(uname -s)"
 case "${unameOut}" in
@@ -57,7 +63,7 @@ then
 	exit $?
 fi
 
-OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=300 -o kernel_cache"
+OPTIONS="-C -o follow_symlinks -o cache=yes -o reconnect -o cache_timeout=$CACHE -o kernel_cache"
 
 if [[ ! -d "$MOUNTPOINT" ]]
 then
