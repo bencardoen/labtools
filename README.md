@@ -62,6 +62,10 @@ To unmount, do:
 ```bash
 ./remotemount.sh /home/me/mount
 ```
+By default a cache timeout of 300secs is set (5min), this means writes won't propagate instantly, you can configures this too:
+```bash
+./remotemount.sh remote.server.com:/home/me /home/me/mount 10
+```
 ##### Notes
 - The options are tweaked for my usage, but for collaborative editing you may want to change the cache timing.
 - This reconnects, so even on a laptop when it hibernates and you go to a new wifi access point, it will reconnect.
